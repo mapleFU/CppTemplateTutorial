@@ -169,7 +169,7 @@ vector unknownVector; // 错误示例
 ```
 
 这样就是错误的。我们把通过类型绑定将模板类变成“普通的类”的过程，称之为模板实例化（Template Instantiate）。实例化的语法是：
- 
+
 ```
 模板名 < 模板实参1 [，模板实参2，...] >
 ```
@@ -189,7 +189,7 @@ ClassB<int, float>
 
 当然，在实例化过程中，被绑定到模板参数上的类型（即模板实参）需要与模板形参正确匹配。
 就如同函数一样，如果没有提供足够并匹配的参数，模板便不能正确的实例化。
- 
+
 #### 1.1.3 模板类的成员函数定义
 
 由于C++11正式废弃“模板导出”这一特性，因此在模板类的变量在调用成员函数的时候，需要看到完整的成员函数定义。因此现在的模板类中的成员函数，通常都是以内联的方式实现。
@@ -1740,7 +1740,7 @@ template <> struct DoWork<int, int> {}; // 这是 int, int 类型的“重载”
 ^ ~~~~
 1 : note: template is declared here
 template <typename T> struct DoWork {}; // 这是原型
-~~~~~~~~~~~~~~~~~~~~~ ^
+​~~~~~~~~~~~~~~~~~~~~~ ^
 ```
 
 从编译出错的失望中冷静一下，在仔细看看函数特化/偏特化和一般模板的不同之处：
@@ -2264,7 +2264,7 @@ void callFoo() {
   * 什么样的行为被称作 Substitution；
   
   * 什么样的行为不可以被称作 Substitution Failure —— 他们叫SFINAE error。
-  
+
 我们在此不再详述，有兴趣的同学可以参照[`这里`](http://en.cppreference.com/w/cpp/language/sfinae)，这是标准的一个精炼版本。这里我们简单的解释一下。
 
 考虑我们有这么个函数签名：
@@ -2384,7 +2384,7 @@ template <typename T> void inc_counter(T& intTypeCounter);
 template <typename T> void inc_counter(
   T& counterObj, 
   typename std::enable_if<
-    is_base_of<T, ICounter>::value
+    std::is_base_of<T, ICounter>::value
   >::type* = nullptr );
 
 template <typename T> void inc_counter(
@@ -2419,8 +2419,8 @@ void inc_counter(ICounter& counterObj);
   * 偏特化（对模板类而言）
   
   * 虚函数
-   
-  
+
+
 但是问题到了这里并没有结束。因为 `increase` 毕竟是个虚函数。假如 `Counter` 需要调用的地方实在是太多了，这个时候我们会非常期望 `increase` 不再是个虚函数以提高性能。此时我们会调整继承层级：
 
 ```C++
@@ -2558,7 +2558,7 @@ template <typename ArgT>
 void foo(
   ArgT&& a, 
   typename std::enabled_if<
-    is_same<std::decay_t<ArgT>, float>::value
+    std::is_same<std::decay_t<ArgT>, float>::value
   >::type* = nullptr
 );
 ```
@@ -2601,8 +2601,8 @@ Any Spirit Hana TypeErasure
 alexandrescu 关于 min max 的讨论：《再谈Min和Max》
 std::experimental::any / boost.any 对于 reference 的处理
 
-  [1]: http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2012/n3337.pdf
-  
-  [2]: http://blog.llvm.org/2009/12/dreaded-two-phase-name-lookup.html
-  
-  [3]: https://goo.gl/zCRNYx
+[1]: http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2012/n3337.pdf
+
+[2]: http://blog.llvm.org/2009/12/dreaded-two-phase-name-lookup.html
+
+[3]: https://goo.gl/zCRNYx
